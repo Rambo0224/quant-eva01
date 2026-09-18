@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quant · 量化分析工作台</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Quant 首页"><span class="brand-icon">Q</span><span>Quant<small>量化分析工作台</small></span></a>
+    <div class="nav-label">研究工作区</div>
+    <nav><button class="nav active" data-page="monitor"><span>◉</span> 关注雷达</button><button class="nav" data-page="analysis"><span>▥</span> 手动分析</button></nav>
+    <div class="sidebar-note"><span class="status-dot"></span> 本地行情数据库<p id="database-note">正在读取数据目录…</p><small>信号辅助判断 · 日频分析</small></div>
+  </aside>
+  <main>
+    <header class="topbar"><span id="breadcrumb">研究工作区 / 关注雷达</span><span class="local-badge">LOCAL WORKSPACE</span></header>
+    <div id="app-error" role="alert" class="notice error" hidden></div>
+    <section id="page-monitor" class="page">
+      <div class="page-heading"><div><div class="eyebrow">MARKET RADAR</div><h1>把值得关注的变化，放在前面。</h1><p>识别异常偏离、极端分位与明显变化，并交代数据是否足够新。</p></div><button id="scan-button" class="primary">刷新扫描 <span>↗</span></button></div>
+      <div class="toolbar panel"><div><strong>我的关注范围</strong><p id="watch-summary">正在加载默认范围…</p></div><div class="actions"><button id="watch-data">选择对象</button><button id="watch-factors">选择因子</button><button id="watch-reset" class="quiet">恢复默认</button><label>过期阈值 <input id="stale-days" type="number" value="7" min="1" max="90"> 天</label></div></div>
+      <p class="muted" style="margin-top:12px"><button id="divergence-preset">股票 / ETF · MACD背离</button> 载入最多40个ETF、20只股票的初始范围，可通过“选择对象”调整。</p>
+      <details class="settings"><summary>扫描参数</summary><div id="watch-parameters" class="parameter-grid"></div></details>
+      <div id="scan-metrics" class="metrics"></div>
+      <div id="scan-status" class="run-status" role="status" aria-live="polite">准备首次扫描…</div>
+      <div class="section-heading"><h2>关注清单</h2><div class="filters" id="scan-filters"><button data-filter="attention" class="selected">值得关注</button><button data-filter="all">全部结果</button><button data-filter="quality">数据问题</button></div></div>
+      <div id="scan-results"></div>
+    </section>
+    <section id="page-analysis" class="page" hidden>
+      <div class="page-heading"><div><div class="eyebrow">RESEARCH DESK</div><h1>选择分析对象，让因子给出线索。</h1><p>一次分析一个或多个标的或宏观指标，查看指标状态、触发原因与历史变化。</p></div><button id="analyze-button" class="primary">运行分析 <span>↗</span></button></div>
+      <div class="selection-grid">
+        <div class="panel selection-panel"><div class="section-heading"><h2><span class="step">01</span> 分析对象</h2><button id="select-data">选择对象 ＋</button></div><div id="selected-data" class="chips"></div></div>
+        <div class="panel selection-panel"><div class="section-heading"><h2><span class="step">02</span> 分析因子</h2><button id="select-factors">选择因子 ＋</button></div><div id="selected-factors" class="chips"></div></div>
+      </div>
+      <div class="panel analysis-controls"><label>开始日期<input id="start-date" type="date"></label><span class="date-divider">—</span><label>截止日期<input id="end-date" type="date"></label><div class="control-note">显示区间之前的历史数据会自动参与预热。<br>参数修改后重新运行分析生效。</div><button id="save-preset">保存方案</button><select id="preset-select" aria-label="已保存方案"><option value="">载入分析方案…</option></select><button id="delete-preset" class="quiet">删除方案</button></div>
+      <details class="settings" open><summary>因子参数与计算说明</summary><div id="parameters" class="parameter-grid"></div></details>
+      <div id="analysis-status" class="run-status" role="status" aria-live="polite">选择对象与因子后，点击“运行分析”。</div>
+      <div id="analysis-output" hidden>
+        <div id="analysis-metrics" class="metrics"></div>
+        <div class="section-heading"><h2>分析结果</h2><button id="download-results">导出结果 CSV</button></div>
+        <div id="analysis-results"></div>
+        <div id="detail" class="panel detail" hidden><div class="section-heading"><div><div class="eyebrow">FACTOR DETAIL</div><h2 id="detail-title"></h2></div><button id="detail-close" class="quiet">收起详情 ×</button></div><p id="detail-reason"></p><div id="detail-meta" class="detail-meta"></div><div id="detail-notes"></div><div id="factor-chart" aria-label="因子历史图"></div><div class="section-heading"><h3>区间内触发记录</h3><span id="events-count"></span></div><div id="detail-events"></div></div>
+      </div>
+    </section>
+    <footer>Quant Research Workspace <span>量化线索，辅助你的投资判断</span></footer>
+  </main>
+  <dialog id="picker" aria-labelledby="picker-title"><div class="dialog-heading"><div><div class="eyebrow">BUILD YOUR ANALYSIS</div><h2 id="picker-title">选择对象</h2></div><button id="picker-close" aria-label="关闭选择对话框" class="quiet">×</button></div><p id="picker-description" class="muted"></p><div class="picker-tools"><input id="picker-search" type="search" placeholder="搜索名称、代码或来源…" aria-label="搜索备选条目"><select id="picker-category" aria-label="筛选分类"><option value="">全部分类</option></select></div><div class="transfer"><div class="transfer-pane"><div class="pane-heading"><strong>备选条目 <span id="available-count"></span></strong><button id="add-visible" class="quiet">添加本页 →</button></div><div id="available-list" class="transfer-list"></div></div><div class="transfer-arrow">⇄</div><div class="transfer-pane"><div class="pane-heading"><strong>已选条目 <span id="chosen-count"></span></strong><button id="clear-chosen" class="quiet">清空</button></div><div id="chosen-list" class="transfer-list"></div></div></div><div class="dialog-footer"><span id="picker-hint" class="muted"></span><div class="actions"><button id="picker-cancel">取消</button><button id="picker-apply" class="primary">确认选择</button></div></div></dialog>
+  <dialog id="save-dialog" aria-labelledby="save-title"><h2 id="save-title">保存分析方案</h2><p class="muted">保存所选数据、因子、参数及日期，保存在当前浏览器。</p><input id="preset-name" placeholder="例如：宽基趋势与成交量" maxlength="40" aria-label="方案名称"><div class="dialog-footer"><span id="save-message"></span><div class="actions"><button id="save-cancel">取消</button><button id="save-confirm" class="primary">保存</button></div></div></dialog>
+</body>
+</html>

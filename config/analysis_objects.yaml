@@ -1,0 +1,36 @@
+# Explicit semantic associations. ETF securities are discovered from instrument_master.
+# Each field points to a database indicator_id, not a fuzzy display-name match.
+objects:
+  commodity:london-gold:
+    name: 伦敦现货黄金
+    category: 商品
+    asset_ids: [london-gold-spot]
+    series: {close: london-gold-spot-close, rsi-14d: london-gold-rsi-14d}
+  index:hs300:
+    name: 沪深300指数
+    category: 指数
+    series: {close: hs300-close, pe: hs300-pe, pb: hs300-pb, vol-20d: hs300-vol-20d}
+  index:sz50:
+    name: 上证50指数
+    category: 指数
+    series: {close: sz50-close, pe: sz50-pe, pb: sz50-pb, vol-20d: sz50-vol-20d}
+  index:zz500:
+    name: 中证500指数
+    category: 指数
+    series: {close: zz500-close}
+  index:cyb50:
+    name: 创业板50指数
+    category: 指数
+    series: {close: cyb50-close, pe: cyb50-pe, pb: cyb50-pb, vol-20d: cyb50-vol-20d}
+  index:kc50:
+    name: 科创50指数
+    category: 指数
+    series: {close: kc50-close, pe: kc50-pe, pb: kc50-pb, vol-20d: kc50-vol-20d, rsi-14d: kc50-rsi-14d}
+  futures:if:
+    name: IF沪深300股指期货
+    category: 股指期货
+    series: {close: if-close, basis: if-basis, basis-annual: if-basis-annual, vol-20d: if-vol-20d}
+  futures:ic:
+    name: IC中证500股指期货
+    category: 股指期货
+    series: {close: ic-close, basis: ic-basis, basis-annual: ic-basis-annual, vol-20d: ic-vol-20d}

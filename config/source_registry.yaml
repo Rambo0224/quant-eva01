@@ -1,0 +1,86 @@
+{
+  "sources": [
+    {
+      "id": "ifind_mcp",
+      "type": "mcp",
+      "reliability": "production_candidate",
+      "credential": "external_readonly_config",
+      "note": "复用 Terminal 的只读配置路径，不复制令牌"
+    },
+    {
+      "id": "ifind_edb",
+      "type": "mcp_edb",
+      "reliability": "production_candidate",
+      "credential": "iFinD finance-data skill configuration",
+      "note": "用于有明确日期和值字段的宏观及市场历史序列；错误命中和无历史覆盖的结果不入库"
+    },
+    {
+      "id": "exchange_official",
+      "type": "official_exchange",
+      "reliability": "preferred",
+      "note": "上交所/深交所官方披露"
+    },
+    {
+      "id": "csindex_official",
+      "type": "official_index",
+      "reliability": "preferred",
+      "note": "中证指数有限公司指数及估值数据"
+    },
+    {
+      "id": "cffex_official",
+      "type": "official_exchange",
+      "reliability": "preferred",
+      "note": "CFFEX official index-futures daily data; dominant contract selected by daily volume"
+    },
+    {
+      "id": "exchange_or_ifind",
+      "type": "official_or_vendor",
+      "reliability": "preferred",
+      "note": "指数价格优先交易所或 iFinD"
+    },
+    {
+      "id": "eastmoney_public",
+      "type": "public_api",
+      "reliability": "fallback",
+      "note": "使用时必须记录抓取时间、响应校验和缓存"
+    },
+    {
+      "id": "comein_mcp",
+      "type": "mcp",
+      "reliability": "production_candidate",
+      "credential": "COMEIN_MCP_KEY environment variable",
+      "note": "Comein Finance MCP; SSE session bootstrap with direct JSON POST responses; key is never stored in the repository"
+    },
+    {
+      "id": "akshare_public",
+      "type": "python_adapter",
+      "reliability": "fallback",
+      "note": "公共接口适配层，不作为唯一生产来源"
+    },
+    {
+      "id": "openbb_yfinance",
+      "type": "python_provider",
+      "reliability": "fallback",
+      "note": "OpenBB standard equity historical model backed by Yahoo Finance; public A-share OHLCV candidate with symbol coverage and rate-limit checks"
+    },
+    {
+      "id": "tushare_pro",
+      "type": "token_api",
+      "reliability": "production_candidate",
+      "credential": "TUSHARE_TOKEN environment variable",
+      "note": "Tushare Pro daily OHLCV and all-market batches; requires a user token and bounded incremental requests"
+    },
+    {
+      "id": "manual_excel",
+      "type": "manual_import",
+      "reliability": "last_resort",
+      "note": "仅用于暂时无法自动抓取的指标"
+    },
+    {
+      "id": "derived",
+      "type": "calculation",
+      "reliability": "internal",
+      "note": "由标准化原始序列计算"
+    }
+  ]
+}

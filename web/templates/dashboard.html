@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>复盘面板</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; background: #f5f6fb; }
+    h1 { margin-bottom: 24px; font-size: 20px; color: #64748b; }
+    h2 { font-size: 12px; font-weight: 400; line-height: 1.35; margin: 0 0 10px; color: #475569; }
+    .section { margin-bottom: 36px; }
+    .section-head { margin-bottom: 14px; }
+    .section-head h3 { margin: 0 0 6px; font-size: 22px; color: #0f172a; }
+    .section-head p { margin: 0; font-size: 13px; color: #64748b; }
+    .toolbar { margin-top: 12px; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+    .toolbar label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #475569; }
+    .toolbar input { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; min-width: 150px; }
+    .toolbar button { padding: 9px 14px; border: 0; border-radius: 8px; background: #2563eb; color: #fff; cursor: pointer; font-size: 13px; }
+    .grid { margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 10px rgba(15,23,42,0.08); display: flex; flex-direction: column; }
+    .meta { font-size: 12px; color: #475569; margin-bottom: 10px; }
+    .thumb { width: 100%; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; min-height: 180px; display: flex; align-items: center; justify-content: center; background: #f8fafc; overflow: hidden; }
+    .thumb img { width: 100%; border-radius: 6px; display: block; }
+    .empty { color: #94a3b8; }
+    p { font-size: 14px; line-height: 1.6; }
+    .actions a { color: #2563eb; text-decoration: none; font-size: 14px; margin-right: 14px; }
+  </style>
+</head>
+<body>
+  <h1>复盘面板</h1>
+  {% for section in sections %}
+  <section class="section">
+    <div class="section-head">
+      <h3>{{ section.title }}</h3>
+      {% if section.description %}
+      <p>{{ section.description }}</p>
+      {% endif %}
+      <form class="toolbar" method="post" action="/refresh-theme">
+        <input type="hidden" name="theme_key" value="{{ section.key }}" />
+        <label>
+          开始时间
+          <input type="date" name="start_date" value="{{ section.start_date }}" />
+        </label>
+        <label>
+          结束时间
+          <input type="date" value="{{ section.end_date }}" readonly disabled />
+        </label>
+        <button type="submit">刷新数据</button>
+      </form>
+    </div>
+    <div class="grid">
+      {% if not section.enabled %}
+      <div class="card">
+        <h2>尚未加载</h2>
+        <p>点击上方“刷新数据”后，再抓取并展示这个模块的数据和图表。</p>
+      </div>
+      {% endif %}
+      {% for card in section.cards %}
+      <div class="card">
+        <h2>{{ card.title }}</h2>
+        <div class="meta">{% if card.updated %}更新时间: {{ card.updated }}{% else %}未生成{% endif %}</div>
+        <div class="thumb">
+          {% if card.image_url %}
+          <img src="{{ card.image_url }}" alt="{{ card.title }}" />
+          {% else %}
+          <span class="empty">暂无图表</span>
+          {% endif %}
+        </div>
+        <p>{{ card.description }}</p>
+        <div class="actions">
+          <a href="{{ card.data_url }}" target="_blank">查看原始数据</a>
+          {% if card.html_url %}
+          <a href="{{ card.html_url }}" target="_blank">查看交互图</a>
+          {% else %}
+          <span class="empty">等待生成</span>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+  <p style="margin-top:30px;font-size:14px;">如需更新 MCP token，请前往 <a href="/config">配置页面</a>。</p>
+</body>
+</html>

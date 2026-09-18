@@ -1,0 +1,1625 @@
+themes:
+  market-breadth:
+    title: 市场交易与情绪
+    description: 全市场成交、融资融券、涨跌停和市场宽度指标
+    indicators:
+    - id: turnover-total
+      title: 全市场成交额
+      description: ''
+      source: ifind-edb-direct
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2025-07-17'
+      series:
+      - code: turnover_total
+        source: ifind-edb-direct
+        query: '{code} {start_date}至{end_date}'
+        query_code: A股成交额
+        value_column: 沪深两市:股票:成交金额
+        comein_index_name: A股成交额
+        unit_override: 元
+      chart:
+        type: line
+        x_field: date
+        y_field: turnover_total
+        title: 全市场成交额
+        unit: 亿元
+        y_label: 亿元
+        source_label: ifind_edb
+      metadata:
+        excel_sequence: 8
+        factor_name: turnover_total
+        indicator_type: 原始
+        excel_method: akshare.stock_market_fund_flow()
+        preferred_source: ifind_edb
+        fallback_source: manual_excel
+        source_status: validated_historical
+        source_reason: iFinD EDB 鎸囨爣 S024714285 宸查獙璇佽繑鍥?243 涓氦鏄撴棩鐨勪竴骞村簭鍒楋紱淇濈暀鎵嬪伐 Excel 浣滀负鍥為€€
+        dependencies: []
+    - id: turnover-rate
+      title: 全市场换手率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: turnover_rate
+        title: 全市场换手率
+        unit: '%'
+        y_label: '%'
+        source_label: akshare_public
+      metadata:
+        excel_sequence: 9
+        factor_name: turnover_rate
+        indicator_type: 原始
+        excel_method: akshare.stock_market_fund_flow()
+        preferred_source: akshare_public
+        fallback_source: manual_excel
+        source_status: fallback_only
+        source_reason: Excel 涓粰鍑?AkShare 鏂规硶锛屾殏浣滀负鍏叡鍥為€€锛屼笉瑙嗕负鐢熶骇绾у敮涓€鏉ユ簮
+        dependencies: []
+    - id: margin-balance
+      title: 融资余额
+      description: ''
+      source: ifind-edb-direct
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+        fetch_start_date: '2000-01-01'
+      series:
+      - code: margin_balance
+        query: 沪深两市融资余额 {start_date}至{end_date}
+        query_code: 沪深两市融资余额
+        value_column: 沪深两市:融资余额
+        comein_index_name: 两融余额:融资余额
+        multiplier: 1e-08
+        unit_override: 亿元
+      chart:
+        type: line
+        x_field: date
+        y_field: margin_balance
+        title: 融资余额
+        unit: 亿元
+        y_label: 亿元
+        source_label: ifind_edb
+      metadata:
+        excel_sequence: 11
+        factor_name: margin_balance
+        indicator_type: 原始
+        excel_method: akshare.stock_margin_sse() 鍜?akshare.stock_margin_szse() 姹傚拰
+        preferred_source: ifind_edb
+        fallback_source: exchange_official
+        source_status: validated_historical
+        source_reason: iFinD EDB 杩斿洖娌繁涓ゅ競铻嶈祫浣欓鐨勯€愭棩鍘嗗彶搴忓垪锛?010 骞翠互鏉ュ彲楠岃瘉
+        dependencies: []
+    - id: margin-purchase
+      title: 融资买入额
+      description: ''
+      source: ifind-edb-direct
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+        fetch_start_date: '2000-01-01'
+      series:
+      - code: margin_purchase
+        query: 沪深两市融资买入额 {start_date}至{end_date}
+        query_code: 沪深两市融资买入额
+        value_column: 沪深两市:融资买入额
+        comein_index_name: 两融余额:融资买入额
+        multiplier: 1e-08
+        unit_override: 亿元
+      chart:
+        type: line
+        x_field: date
+        y_field: margin_purchase
+        title: 融资买入额
+        unit: 亿元
+        y_label: 亿元
+        source_label: ifind_edb
+      metadata:
+        excel_sequence: 12
+        factor_name: margin_purchase
+        indicator_type: 原始
+        excel_method: akshare.stock_margin_sse() 鍜?akshare.stock_margin_szse() 姹傚拰
+        preferred_source: ifind_edb
+        fallback_source: exchange_official
+        source_status: validated_historical
+        source_reason: iFinD EDB 杩斿洖娌繁涓ゅ競铻嶈祫涔板叆棰濈殑閫愭棩鍘嗗彶搴忓垪锛?010 骞翠互鏉ュ彲楠岃瘉
+        dependencies: []
+    - id: short-balance
+      title: 融券余额
+      description: ''
+      source: ifind-edb-direct
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+        fetch_start_date: '2000-01-01'
+      series:
+      - code: short_balance
+        query: 沪深两市融券余额 {start_date}至{end_date}
+        query_code: 沪深两市融券余额
+        value_column: 沪深两市:融券余额
+        comein_index_name: 两融余额:融券余额
+        multiplier: 1e-08
+        unit_override: 亿元
+      chart:
+        type: line
+        x_field: date
+        y_field: short_balance
+        title: 融券余额
+        unit: 亿元
+        y_label: 亿元
+        source_label: ifind_edb
+      metadata:
+        excel_sequence: 13
+        factor_name: short_balance
+        indicator_type: 原始
+        excel_method: akshare.stock_margin_sse() 鍜?akshare.stock_margin_szse() 姹傚拰
+        preferred_source: ifind_edb
+        fallback_source: exchange_official
+        source_status: validated_historical
+        source_reason: iFinD EDB 杩斿洖娌繁涓ゅ競铻嶅埜浣欓鐨勯€愭棩鍘嗗彶搴忓垪锛?010 骞翠互鏉ュ彲楠岃瘉
+        dependencies: []
+    - id: short-increase-rate
+      title: 融券余量增速
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: short_increase_rate
+        title: 融券余量增速
+        unit: '%'
+        y_label: '%'
+        source_label: derived
+      metadata:
+        excel_sequence: 14
+        factor_name: short_increase_rate
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `(褰撴棩铻嶅埜浣欓 - 鍓嶆棩铻嶅埜浣欓) / 鍓嶆棩铻嶅埜浣欓` <br> **渚濊禆鍘熷鏁版嵁**: `short_balance` (瑙佸簭鍙?3)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: validated_historical
+        source_reason: 鐢卞凡楠岃瘉鐨?iFinD EDB 铻嶅埜浣欓閫愭棩璁＄畻锛岄鏃ュ洜缂哄皯鍓嶄竴浜ゆ槗鏃ヤ笉鐢熸垚
+        dependencies:
+        - short_balance
+    - id: advance-ratio
+      title: 上涨家数占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: advance_ratio
+        title: 上涨家数占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 15
+        factor_name: advance_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `涓婃定瀹舵暟 / (涓婃定瀹舵暟+涓嬭穼瀹舵暟)` <br> **渚濊禆鍘熷鏁版嵁**: `advance_count`, `decline_count` 鏉ヨ嚜 `akshare.stock_zh_a_spot_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: recent_only
+        source_reason: iFinD only returned recent cross-sectional snapshots; no validated one-year historical breadth source
+          is available
+        dependencies:
+        - advance_count
+        - decline_count
+    - id: limit-up-count
+      title: 涨停家数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: limit_up_count
+        title: 涨停家数
+        unit: 家数
+        y_label: 家数
+        source_label: eastmoney_public
+      metadata:
+        excel_sequence: 16
+        factor_name: limit_up_count
+        indicator_type: 原始
+        excel_method: akshare.stock_zt_pool_em(date='YYYYMMDD')
+        preferred_source: eastmoney_public
+        fallback_source: ifind_mcp
+        source_status: recent_only
+        source_reason: Eastmoney/AkShare historical limit-pool coverage is limited to a recent window; iFinD returned no historical
+          series
+        dependencies: []
+    - id: limit-down-count
+      title: 跌停家数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: limit_down_count
+        title: 跌停家数
+        unit: 家数
+        y_label: 家数
+        source_label: eastmoney_public
+      metadata:
+        excel_sequence: 17
+        factor_name: limit_down_count
+        indicator_type: 原始
+        excel_method: akshare.stock_dt_pool_em(date='YYYYMMDD')
+        preferred_source: eastmoney_public
+        fallback_source: ifind_mcp
+        source_status: recent_only
+        source_reason: Eastmoney/AkShare historical limit-pool coverage is limited to a recent window; iFinD returned no historical
+          series
+        dependencies: []
+    - id: limit-up-ratio
+      title: 涨停家数占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: limit_up_ratio
+        title: 涨停家数占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 18
+        factor_name: limit_up_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `娑ㄥ仠瀹舵暟 / 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: `limit_up_count` (瑙佸簭鍙?6), `total_count` (鏉ヨ嚜 `akshare.stock_zh_a_spot_em()`)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: recent_only
+        source_reason: The source limit-up count is recent-only, so this derived ratio is withheld until one-year source coverage
+          is available
+        dependencies:
+        - limit_up_count
+        - total_count
+    - id: limit-down-ratio
+      title: 跌停家数占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: limit_down_ratio
+        title: 跌停家数占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 19
+        factor_name: limit_down_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `璺屽仠瀹舵暟 / 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: `limit_down_count` (瑙佸簭鍙?7), `total_count` (鏉ヨ嚜 `akshare.stock_zh_a_spot_em()`)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: recent_only
+        source_reason: The source limit-down count is recent-only, so this derived ratio is withheld until one-year source
+          coverage is available
+        dependencies:
+        - limit_down_count
+        - total_count
+    - id: explosive-ratio
+      title: 真实炸板率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: explosive_ratio
+        title: 真实炸板率
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 20
+        factor_name: explosive_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鐐告澘瀹舵暟 / 瑙﹀強娑ㄥ仠鎬诲鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: `鐐告澘瀹舵暟`, `瑙﹀強娑ㄥ仠瀹舵暟` 鏉ヨ嚜 `akshare.stock_zt_pool_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: advance-ratio-2
+      title: 上涨家数占比（日频）
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: advance_ratio
+        title: 上涨家数占比（日频）
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 88
+        factor_name: advance_ratio
+        indicator_type: 合成
+        excel_method: 鍚屽簭鍙?5
+        preferred_source: derived
+        fallback_source: null
+        source_status: recent_only
+        source_reason: iFinD only returned recent cross-sectional snapshots; no validated one-year historical breadth source
+          is available
+        dependencies: []
+    - id: advance-decline-line
+      title: 腾落指数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2021-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: advance_decline_line
+        title: 腾落指数
+        unit: 累计家数差
+        y_label: 累计家数差
+        source_label: derived
+      metadata:
+        excel_sequence: 96
+        factor_name: advance_decline_line
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 姣忔棩 `(涓婃定瀹舵暟 - 涓嬭穼瀹舵暟)` 鐨勭疮璁″拰 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close` 涓庡墠鏀剁洏锛屾潵鑷?`baostock_history_k_data`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: validated_historical
+        source_reason: 鐢卞凡鍏ュ簱 BaoStock 鍏ˋ鑲℃棩绾胯鎯呴€愭棩璁＄畻锛岃鐩?2021-01-05 鑷冲綋鍓嶅簱鍐呮渶鏂颁氦鏄撴棩銆?
+        dependencies: []
+  index-valuation:
+    title: 指数与估值
+    description: 主要宽基指数价格、估值和波动率指标
+    indicators:
+    - id: hs300-close
+      title: 沪深300收盘价
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: hs300_close
+        title: 沪深300收盘价
+        unit: ''
+        y_label: 指数点位
+        source_label: exchange_or_ifind
+      metadata:
+        excel_sequence: 22
+        factor_name: hs300_close
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_daily(symbol="sh000300")
+        preferred_source: exchange_or_ifind
+        fallback_source: akshare_public
+        source_status: adapter_planned
+        source_reason: 鎸囨暟浠锋牸浼樺厛璧颁氦鏄撴墍鎴?iFinD锛孉kShare 浠呬綔鍏叡鍥為€€
+        dependencies: []
+    - id: hs300-pe
+      title: 沪深300市盈率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: hs300_pe
+        title: 沪深300市盈率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 23
+        factor_name: hs300_pe
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="000300")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: hs300-pb
+      title: 沪深300市净率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: hs300_pb
+        title: 沪深300市净率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 24
+        factor_name: hs300_pb
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="000300")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: sz50-close
+      title: 上证50收盘价
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: sz50_close
+        title: 上证50收盘价
+        unit: ''
+        y_label: 指数点位
+        source_label: exchange_or_ifind
+      metadata:
+        excel_sequence: 25
+        factor_name: sz50_close
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_daily(symbol="sh000016")
+        preferred_source: exchange_or_ifind
+        fallback_source: akshare_public
+        source_status: adapter_planned
+        source_reason: 鎸囨暟浠锋牸浼樺厛璧颁氦鏄撴墍鎴?iFinD锛孉kShare 浠呬綔鍏叡鍥為€€
+        dependencies: []
+    - id: sz50-pe
+      title: 上证50市盈率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: sz50_pe
+        title: 上证50市盈率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 26
+        factor_name: sz50_pe
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="000016")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: sz50-pb
+      title: 上证50市净率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: sz50_pb
+        title: 上证50市净率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 27
+        factor_name: sz50_pb
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="000016")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: cyb50-close
+      title: 创业板50收盘价
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: cyb50_close
+        title: 创业板50收盘价
+        unit: ''
+        y_label: 指数点位
+        source_label: exchange_or_ifind
+      metadata:
+        excel_sequence: 28
+        factor_name: cyb50_close
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_daily(symbol="sz399673")
+        preferred_source: exchange_or_ifind
+        fallback_source: akshare_public
+        source_status: adapter_planned
+        source_reason: 鎸囨暟浠锋牸浼樺厛璧颁氦鏄撴墍鎴?iFinD锛孉kShare 浠呬綔鍏叡鍥為€€
+        dependencies: []
+    - id: cyb50-pe
+      title: 创业板50市盈率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: cyb50_pe
+        title: 创业板50市盈率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 29
+        factor_name: cyb50_pe
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="399673")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: cyb50-pb
+      title: 创业板50市净率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: cyb50_pb
+        title: 创业板50市净率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 30
+        factor_name: cyb50_pb
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="399673")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: kc50-close
+      title: 科创50收盘价
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: kc50_close
+        title: 科创50收盘价
+        unit: ''
+        y_label: 指数点位
+        source_label: exchange_or_ifind
+      metadata:
+        excel_sequence: 31
+        factor_name: kc50_close
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_daily(symbol="sh000688")
+        preferred_source: exchange_or_ifind
+        fallback_source: akshare_public
+        source_status: adapter_planned
+        source_reason: 鎸囨暟浠锋牸浼樺厛璧颁氦鏄撴墍鎴?iFinD锛孉kShare 浠呬綔鍏叡鍥為€€
+        dependencies: []
+    - id: kc50-pe
+      title: 科创50市盈率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: kc50_pe
+        title: 科创50市盈率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 32
+        factor_name: kc50_pe
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="000688")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: kc50-pb
+      title: 科创50市净率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: kc50_pb
+        title: 科创50市净率
+        unit: 倍数
+        y_label: 估值倍数
+        source_label: csindex_official
+      metadata:
+        excel_sequence: 33
+        factor_name: kc50_pb
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_value_csindex(symbol="000688")
+        preferred_source: csindex_official
+        fallback_source: ifind_mcp
+        source_status: adapter_planned
+        source_reason: 浼樺厛浣跨敤涓瘉鎸囨暟鏈夐檺鍏徃浼板€兼暟鎹?
+        dependencies: []
+    - id: zz500-close
+      title: 中证500收盘价
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: zz500_close
+        title: 中证500收盘价
+        unit: ''
+        y_label: 指数点位
+        source_label: exchange_or_ifind
+      metadata:
+        excel_sequence: 34
+        factor_name: zz500_close
+        indicator_type: 原始
+        excel_method: akshare.stock_zh_index_daily(symbol="sh000905")
+        preferred_source: exchange_or_ifind
+        fallback_source: akshare_public
+        source_status: adapter_planned
+        source_reason: 鎸囨暟浠锋牸浼樺厛璧颁氦鏄撴墍鎴?iFinD锛孉kShare 浠呬綔鍏叡鍥為€€
+        dependencies: []
+    - id: hs300-vol-20d
+      title: 沪深300 20日波动率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: hs300_vol_20d
+        title: 沪深300 20日波动率
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: derived
+      metadata:
+        excel_sequence: 37
+        factor_name: hs300_vol_20d
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `娌繁300 20鏃ユ敹鐩婄巼搴忓垪鏍囧噯宸?脳 鈭?52` <br> **渚濊禆鍘熷鏁版嵁**: `hs300_close` (瑙佸簭鍙?2)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - hs300_close
+    - id: sz50-vol-20d
+      title: 上证50 20日波动率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: sz50_vol_20d
+        title: 上证50 20日波动率
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: derived
+      metadata:
+        excel_sequence: 38
+        factor_name: sz50_vol_20d
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `涓婅瘉50 20鏃ユ敹鐩婄巼搴忓垪鏍囧噯宸?脳 鈭?52` <br> **渚濊禆鍘熷鏁版嵁**: `sz50_close` (瑙佸簭鍙?5)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - sz50_close
+    - id: cyb50-vol-20d
+      title: 创业板50 20日波动率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: cyb50_vol_20d
+        title: 创业板50 20日波动率
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: derived
+      metadata:
+        excel_sequence: 39
+        factor_name: cyb50_vol_20d
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鍒涗笟鏉?0 20鏃ユ敹鐩婄巼搴忓垪鏍囧噯宸?脳 鈭?52` <br> **渚濊禆鍘熷鏁版嵁**: `cyb50_close` (瑙佸簭鍙?8)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - cyb50_close
+    - id: kc50-vol-20d
+      title: 科创50 20日波动率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: kc50_vol_20d
+        title: 科创50 20日波动率
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: derived
+      metadata:
+        excel_sequence: 40
+        factor_name: kc50_vol_20d
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `绉戝垱50 20鏃ユ敹鐩婄巼搴忓垪鏍囧噯宸?脳 鈭?52` <br> **渚濊禆鍘熷鏁版嵁**: `kc50_close` (瑙佸簭鍙?1)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - kc50_close
+    - id: kc50-rsi-14d
+      title: 科创50 14日RSI
+      description: 基于科创50收盘价计算的14日相对强弱指标
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: kc50_rsi_14d
+        title: 科创50 14日RSI
+        unit: 指数/比率
+        y_label: RSI
+        source_label: derived
+      metadata:
+        excel_sequence: 40.1
+        factor_name: kc50_rsi_14d
+        indicator_type: 合成
+        excel_method: '**计算**: `rolling_rsi(kc50_close, 14)` <br> **依赖原始数据**: `kc50_close`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: validated
+        source_reason: 基于已落库的科创50收盘价计算14日RSI
+        dependencies:
+        - kc50_close
+  futures-options:
+    title: 股指期货与期权
+    description: 股指期货基差、年化基差、PCR 和隐含波动率
+    indicators:
+    - id: if-vol-20d
+      title: IF主力连续波动率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: if_vol_20d
+        title: IF主力连续波动率
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: derived
+      metadata:
+        excel_sequence: 41
+        factor_name: if_vol_20d
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `IF涓诲姏杩炵画 20鏃ユ敹鐩婄巼搴忓垪鏍囧噯宸?脳 鈭?52` <br> **渚濊禆鍘熷鏁版嵁**: `if_close` (瑙佸簭鍙?3)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - if_close
+    - id: ic-vol-20d
+      title: IC主力连续波动率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: ic_vol_20d
+        title: IC主力连续波动率
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: derived
+      metadata:
+        excel_sequence: 42
+        factor_name: ic_vol_20d
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `IC涓诲姏杩炵画 20鏃ユ敹鐩婄巼搴忓垪鏍囧噯宸?脳 鈭?52` <br> **渚濊禆鍘熷鏁版嵁**: `ic_close` (瑙佸簭鍙?4)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - ic_close
+    - id: if-basis
+      title: IF基差
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: if_basis
+        title: IF基差
+        unit: ''
+        y_label: 点位
+        source_label: derived
+      metadata:
+        excel_sequence: 46
+        factor_name: if_basis
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `if_close - hs300_close` <br> **渚濊禆鍘熷鏁版嵁**: `if_close` (瑙佸簭鍙?3), `hs300_close` (瑙佸簭鍙?2)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - if_close
+        - hs300_close
+    - id: ic-basis
+      title: IC基差
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: ic_basis
+        title: IC基差
+        unit: ''
+        y_label: 点位
+        source_label: derived
+      metadata:
+        excel_sequence: 47
+        factor_name: ic_basis
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `ic_close - zz500_close` <br> **渚濊禆鍘熷鏁版嵁**: `ic_close` (瑙佸簭鍙?4), `zz500_close` (瑙佸簭鍙?4)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - ic_close
+        - zz500_close
+    - id: if-basis-annual
+      title: IF年化基差率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: if_basis_annual
+        title: IF年化基差率
+        unit: '%'
+        y_label: '%'
+        source_label: derived
+      metadata:
+        excel_sequence: 48
+        factor_name: if_basis_annual
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `(if_close / hs300_close - 1) 脳 365 / 鍚堢害鍓╀綑澶╂暟` <br> **渚濊禆鍘熷鏁版嵁**: `if_close` (瑙佸簭鍙?3),
+          `hs300_close` (瑙佸簭鍙?2)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - if_close
+        - hs300_close
+    - id: ic-basis-annual
+      title: IC年化基差率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: ic_basis_annual
+        title: IC年化基差率
+        unit: '%'
+        y_label: '%'
+        source_label: derived
+      metadata:
+        excel_sequence: 49
+        factor_name: ic_basis_annual
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `(ic_close / zz500_close - 1) 脳 365 / 鍚堢害鍓╀綑澶╂暟` <br> **渚濊禆鍘熷鏁版嵁**: `ic_close` (瑙佸簭鍙?4),
+          `zz500_close` (瑙佸簭鍙?4)'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies:
+        - ic_close
+        - zz500_close
+    - id: pcr-volume
+      title: 认沽认购比（成交量）
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: pcr_volume
+        title: 认沽认购比（成交量）
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: ifind_mcp
+      metadata:
+        excel_sequence: 50
+        factor_name: pcr_volume
+        indicator_type: 原始
+        excel_method: ifind.csdc('PCR_VOLUME', 'value')
+        preferred_source: ifind_mcp
+        fallback_source: manual_excel
+        source_status: validated_historical
+        source_reason: AkShare 涓婁氦鎵€鏈熸潈姣忔棩缁熻鍙绠?50ETF 璁ゆ步鎴愪氦閲忛櫎浠ヨ璐垚浜ら噺锛?015 骞翠互鏉ュ彲璇锋眰
+        dependencies: []
+    - id: pcr-oi
+      title: 认沽认购比（持仓量）
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: pcr_oi
+        title: 认沽认购比（持仓量）
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: ifind_mcp
+      metadata:
+        excel_sequence: 51
+        factor_name: pcr_oi
+        indicator_type: 原始
+        excel_method: ifind.csdc('PCR_OI', 'value')
+        preferred_source: ifind_mcp
+        fallback_source: manual_excel
+        source_status: validated_historical
+        source_reason: AkShare 涓婁氦鎵€鏈熸潈姣忔棩缁熻鍙绠?50ETF 璁ゆ步鏈钩浠撳悎绾︽暟闄や互璁よ喘鏈钩浠撳悎绾︽暟锛?015 骞翠互鏉ュ彲璇锋眰
+        dependencies: []
+    - id: ivix-50
+      title: 上证50ETF隐含波动率
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: ivix_50
+        title: 上证50ETF隐含波动率
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: ifind_mcp
+      metadata:
+        excel_sequence: 52
+        factor_name: ivix_50
+        indicator_type: 原始
+        excel_method: ifind.csdc('000016', 'ivix')
+        preferred_source: ifind_mcp
+        fallback_source: manual_excel
+        source_status: requires_credentials
+        source_reason: iFinD 宸插湪 Terminal 涓厤缃紝浣?OmniSignal 涓嶅鍒跺瘑閽?
+        dependencies: []
+    - id: qvix
+      title: QVIX恐慌指数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: qvix
+        title: QVIX恐慌指数
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: ifind_mcp
+      metadata:
+        excel_sequence: 53
+        factor_name: qvix
+        indicator_type: 原始
+        excel_method: ifind.csdc('QVIX', 'value')
+        preferred_source: ifind_mcp
+        fallback_source: manual_excel
+        source_status: validated_historical
+        source_reason: AkShare index_option_50etf_qvix 杩斿洖 50ETF QVIX 鏃ョ嚎锛?015-02-09 浠ユ潵鍙獙璇?
+        dependencies: []
+  cross-sectional:
+    title: 全市场横截面
+    description: 全 A 股票动量、技术面和横截面分布
+    indicators:
+    - id: momentum-20d-median
+      title: 20日动量中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: momentum_20d_median
+        title: 20日动量中位数
+        unit: ''
+        y_label: 数值
+        source_label: derived
+      metadata:
+        excel_sequence: 80
+        factor_name: momentum_20d_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ `(close_t/close_t-20)-1` 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        data_quality: real
+        quality_reason: 鐢?AkShare stock_zh_a_hist 鍏ˋ閫愯偂鏃ョ嚎璁＄畻鐪熷疄20涓氦鏄撴棩鏀剁泭涓綅鏁?
+        dependencies: []
+    - id: momentum-60d-median
+      title: 60日动量中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: momentum_60d_median
+        title: 60日动量中位数
+        unit: ''
+        y_label: 数值
+        source_label: derived
+      metadata:
+        excel_sequence: 81
+        factor_name: momentum_60d_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ `(close_t/close_t-60)-1` 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍚屽簭鍙?0'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        data_quality: real
+        quality_reason: 鐢?AkShare stock_zh_a_hist 鍏ˋ閫愯偂鏃ョ嚎璁＄畻鐪熷疄60涓氦鏄撴棩鏀剁泭涓綅鏁?
+        dependencies: []
+    - id: reversal-5d-median
+      title: 5日反转中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: reversal_5d_median
+        title: 5日反转中位数
+        unit: '%'
+        y_label: '%'
+        source_label: derived
+      metadata:
+        excel_sequence: 82
+        factor_name: reversal_5d_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ `(close_t/close_t-5)-1` 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍚屽簭鍙?0'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        data_quality: real
+        quality_reason: 鐢?AkShare stock_zh_a_hist 鍏ˋ閫愯偂鏃ョ嚎璁＄畻鐪熷疄5涓氦鏄撴棩鏀剁泭涓綅鏁?
+        dependencies: []
+    - id: turnover-individual-median
+      title: 个股换手率中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: turnover_individual_median
+        title: 个股换手率中位数
+        unit: '%'
+        y_label: '%'
+        source_label: derived
+      metadata:
+        excel_sequence: 83
+        factor_name: turnover_individual_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ `volume/free_shares` 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `volume`, `free_shares` 鏉ヨ嚜 `akshare.stock_zh_a_spot_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: volume-ratio-20d-median
+      title: 20日均量比中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: volume_ratio_20d_median
+        title: 20日均量比中位数
+        unit: ''
+        y_label: 数值
+        source_label: derived
+      metadata:
+        excel_sequence: 84
+        factor_name: volume_ratio_20d_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ `volume/MA(volume,20)` 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `volume` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: bias-20d-median
+      title: 20日乖离率中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: bias_20d_median
+        title: 20日乖离率中位数
+        unit: '%'
+        y_label: '%'
+        source_label: derived
+      metadata:
+        excel_sequence: 85
+        factor_name: bias_20d_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ `(close-MA20)/MA20` 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: atr-14d-median
+      title: 14日ATR中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: atr_14d_median
+        title: 14日ATR中位数
+        unit: ''
+        y_label: 数值
+        source_label: derived
+      metadata:
+        excel_sequence: 86
+        factor_name: atr_14d_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ 14鏃TR 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `high`, `low`, `close` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: rsi-14d-median
+      title: 14日RSI中位数
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: rsi_14d_median
+        title: 14日RSI中位数
+        unit: 指数/比率
+        y_label: 指数/比率
+        source_label: derived
+      metadata:
+        excel_sequence: 87
+        factor_name: rsi_14d_median
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: 鍏ˋ鑲＄エ 14鏃SI 鐨勪腑浣嶆暟 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: advance-ratio-20d
+      title: 上涨家数占比（20日）
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: advance_ratio_20d
+        title: 上涨家数占比（20日）
+        unit: ''
+        y_label: 数值
+        source_label: derived
+      metadata:
+        excel_sequence: 89
+        factor_name: advance_ratio_20d
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `杩?0鏃ユ敹鐩?寮€鐩樺鏁?鎬诲鏁扮殑鏃ュ潎鍊糮 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close`, `open` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        data_quality: real
+        quality_reason: 鐢?AkShare stock_zh_a_hist 鍏ˋ閫愯偂鏃ョ嚎璁＄畻鐪熷疄20鏃ヤ笂娑ㄥ鏁板崰姣?
+        dependencies: []
+    - id: high-60d-ratio
+      title: 60日新高占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: high_60d_ratio
+        title: 60日新高占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 90
+        factor_name: high_60d_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鍒?0鏃ユ柊楂樺鏁?/ 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close`, `high_60d` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: high-120d-ratio
+      title: 120日新高占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: high_120d_ratio
+        title: 120日新高占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 91
+        factor_name: high_120d_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鍒?20鏃ユ柊楂樺鏁?/ 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: 鍚屽簭鍙?0'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: high-250d-ratio
+      title: 250日新高占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: high_250d_ratio
+        title: 250日新高占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 92
+        factor_name: high_250d_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鍒?50鏃ユ柊楂樺鏁?/ 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: 鍚屽簭鍙?0'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: above-ma20-ratio
+      title: 站上20日均线占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: above_ma20_ratio
+        title: 站上20日均线占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 93
+        factor_name: above_ma20_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鏀剁洏浠?20鏃ュ潎绾垮鏁?/ 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()`'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: above-ma60-ratio
+      title: 站上60日均线占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: above_ma60_ratio
+        title: 站上60日均线占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 94
+        factor_name: above_ma60_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鏀剁洏浠?60鏃ュ潎绾垮鏁?/ 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: 鍚屽簭鍙?3'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []
+    - id: above-ma120-ratio
+      title: 站上120日均线占比
+      description: ''
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        start_date: '2018-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: above_ma120_ratio
+        title: 站上120日均线占比
+        unit: 比例
+        y_label: 比例
+        source_label: derived
+      metadata:
+        excel_sequence: 95
+        factor_name: above_ma120_ratio
+        indicator_type: 合成
+        excel_method: '**璁＄畻**: `鏀剁洏浠?120鏃ュ潎绾垮鏁?/ 鎬讳氦鏄撳鏁癭 <br> **渚濊禆鍘熷鏁版嵁**: 鍏ˋ涓偂 `close` 鏉ヨ嚜 `akshare.stock_zh_a_hist_min_em()'
+        preferred_source: derived
+        fallback_source: null
+        source_status: formula_pending
+        source_reason: 鐢卞師濮嬫暟鎹湪 OmniSignal 鍒嗘瀽灞傝绠楋紝涓嶇洿鎺ユ姄鍙?
+        dependencies: []

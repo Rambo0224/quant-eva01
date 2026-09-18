@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>MCP 服务器配置</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; }
+    h1 { margin-bottom: 24px; }
+    .server-card { border: 1px solid #ccc; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+    label { display: block; font-weight: bold; margin-top: 10px; }
+    input { width: 100%; padding: 8px; font-size: 14px; }
+    .btn { margin-top: 20px; padding: 12px 24px; background-color: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    .btn:hover { background-color: #1d4ed8; }
+  </style>
+</head>
+<body>
+  <h1>配置 MCP 服务器</h1>
+  <form method="post" action="/save">
+    {% for record in records %}
+    <div class="server-card">
+      <input type="hidden" name="names" value="{{ record.name }}" />
+      <h2>{{ record.name }}</h2>
+      <label>URL</label>
+      <input type="text" name="urls" value="{{ record.url }}" required />
+      <label>Authorization Token</label>
+      <input type="password" name="tokens" value="{{ record.auth_token }}" required />
+    </div>
+    {% endfor %}
+    <button class="btn" type="submit">保存</button>
+  </form>
+</body>
+</html>

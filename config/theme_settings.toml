@@ -1,0 +1,19 @@
+[app]
+columns_count = "4"
+start_date = "2024-01-01"
+end_date = "2026-08-21"
+
+[themes.market-breadth]
+enabled = "true"
+
+[themes.index-valuation]
+enabled = "true"
+
+[themes.futures-options]
+enabled = "true"
+
+[themes.cross-sectional]
+enabled = "true"
+
+[themes.precious-metals]
+enabled = "true"

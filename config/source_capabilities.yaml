@@ -1,0 +1,64 @@
+{
+  "comein_mcp": {
+    "status": "protocol_verified",
+    "credential_path": "COMEIN_MCP_KEY environment variable",
+    "endpoint": "https://mcp-server-global.comein.cn/mcp-servers/mcp-server-brm/sse",
+    "tools": ["searchIndexQuotation", "futures_kline", "pricePerformance", "indicatorDataRetrieve"],
+    "notes": [
+      "SSE bootstrap endpoint verified on 2026-07-17",
+      "initialize and tools/list verified; tool POST responses are direct JSON rather than SSE events",
+      "The key is not stored in OmniSignal"
+    ]
+  },
+  "ifind_mcp": {
+    "status": "protocol_verified",
+    "credential_path": "OMNISIGNAL_MCP_CONFIG or config/mcp_servers.toml",
+    "servers": {
+      "edb": {
+        "name": "hexin-ifind-ds-edb-mcp",
+        "tools": ["get_edb_data"]
+      },
+      "stock": {
+        "name": "hexin-ifind-ds-stock-mcp",
+        "tools": [
+          "get_stock_performance",
+          "get_stock_financials",
+          "get_stock_summary",
+          "get_risk_indicators",
+          "stock_highfreq_quotes"
+        ]
+      }
+    },
+    "notes": [
+      "initialize and tools/list verified on 2026-07-17",
+      "get_stock_financials returned a structured ROE result for a single stock",
+      "get_stock_performance requires explicit metric wording; do not assume a query returning only a date notice contains data"
+    ]
+  },
+  "official_exchange": {
+    "status": "partially_verified",
+    "sse": {
+      "url": "https://www.sse.com.cn/market/othersdata/margin/sum/",
+      "fields_seen": [
+        "信用交易日期",
+        "融资余额(元)",
+        "融资买入额(元)",
+        "融券余量",
+        "融券余量金额(元)",
+        "融券卖出量",
+        "融资融券余额(元)"
+      ],
+      "status": "dynamic_page_requires_endpoint_discovery"
+    },
+    "szse": {
+      "url": "https://www.szse.cn/disclosure/margin/margin/index.html",
+      "status": "iframe_requires_endpoint_discovery"
+    }
+  },
+  "csindex_official": {
+    "status": "verified_for_index_catalog_and_quotes",
+    "url": "https://www.csindex.com.cn/",
+    "index_data_entry": "https://www.csindex.com.cn/#/dataService/indexData",
+    "note": "Stock-index PE/PB historical fields still require a dedicated data endpoint or vendor field mapping"
+  }
+}

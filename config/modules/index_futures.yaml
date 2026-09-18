@@ -1,0 +1,52 @@
+themes:
+  index-futures:
+    title: 股指期货行情
+    indicators:
+    - id: if-close
+      title: IF 沪深300股指期货主力收盘价
+      source: catalog
+      series: []
+      arguments:
+        start_date: '2025-01-01'
+      chart:
+        type: line
+        x_field: date
+        y_field: if_close
+        title: IF 沪深300股指期货主力收盘价
+        unit: 点
+        y_label: 点
+      metadata:
+        factor_name: if_close
+        indicator_type: 原始
+    - id: ic-close
+      title: IC 中证500股指期货主力收盘价
+      source: catalog
+      series: []
+      arguments:
+        start_date: '2025-01-01'
+      chart:
+        type: line
+        x_field: date
+        y_field: ic_close
+        title: IC 中证500股指期货主力收盘价
+        unit: 点
+        y_label: 点
+      metadata:
+        factor_name: ic_close
+        indicator_type: 原始
+    - id: ih-close
+      title: IH 上证50股指期货主力收盘价
+      source: catalog
+      series: []
+      arguments:
+        start_date: '2025-01-01'
+      chart:
+        type: line
+        x_field: date
+        y_field: ih_close
+        title: IH 上证50股指期货主力收盘价
+        unit: 点
+        y_label: 点
+      metadata:
+        factor_name: ih_close
+        indicator_type: 原始

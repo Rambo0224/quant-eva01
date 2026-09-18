@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ indicator.title }} - 原始数据</title>
+  <style>
+    body { font-family: sans-serif; margin: 32px; background: #f5f6fb; color: #334155; }
+    h1 { margin: 0 0 8px; font-size: 26px; }
+    .meta { margin-bottom: 20px; font-size: 14px; color: #64748b; }
+    .actions { margin-bottom: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .actions a { color: #2563eb; text-decoration: none; }
+    .actions form { margin: 0; }
+    .danger-btn { border: 0; border-radius: 8px; padding: 10px 14px; background: #dc2626; color: #fff; cursor: pointer; font-size: 13px; }
+    .hint { font-size: 12px; color: #64748b; }
+    .table-wrap { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; text-align: left; white-space: nowrap; }
+    th { background: #f8fafc; position: sticky; top: 0; }
+    .empty { padding: 24px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <h1>{{ indicator.title }}</h1>
+  <div class="meta">指标 ID: {{ indicator.id }} | 主题: {{ indicator.theme }}</div>
+  <div class="actions">
+    <a href="/">返回首页</a>
+    <a href="/data/{{ indicator.id }}.xlsx">下载 Excel</a>
+    <form method="post" action="/data/{{ indicator.id }}/refresh-full" onsubmit="return confirm('这会清空并全量重建当前图表的数据和图像，是否继续？');">
+      <button class="danger-btn" type="submit">全量更新当前图表</button>
+    </form>
+    <span class="hint">只重建当前指标，完成后刷新页面即可看到新的数据和图表。</span>
+  </div>
+  <div class="table-wrap">
+    {% if rows %}
+    <table>
+      <thead>
+        <tr>
+          <th>时间</th>
+          <th>序列</th>
+          <th>值</th>
+          <th>单位</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row.obs_time }}</td>
+          <td>{{ row.series_id }}</td>
+          <td>{{ row.value }}</td>
+          <td>{{ row.unit }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty">暂无原始数据。</div>
+    {% endif %}
+  </div>
+</body>
+</html>

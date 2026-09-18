@@ -1,0 +1,22 @@
+# Copy to config/mcp_servers.toml and fill in your Authorization tokens.
+# Each MCP server entry corresponds to the ~/.codex/config.toml definitions.
+
+[hexin-ifind-ds-stock-mcp]
+type = "streamablehttp"
+url = "https://api-mcp.51ifind.com:8643/ds-mcp-servers/hexin-ifind-ds-stock-mcp"
+auth_token = "REPLACE_WITH_TOKEN"
+
+[hexin-ifind-ds-fund-mcp]
+type = "streamablehttp"
+url = "https://api-mcp.51ifind.com:8643/ds-mcp-servers/hexin-ifind-ds-fund-mcp"
+auth_token = "REPLACE_WITH_TOKEN"
+
+[hexin-ifind-ds-edb-mcp]
+type = "streamablehttp"
+url = "https://api-mcp.51ifind.com:8643/ds-mcp-servers/hexin-ifind-ds-edb-mcp"
+auth_token = "REPLACE_WITH_TOKEN"
+
+[hexin-ifind-ds-news-mcp]
+type = "streamablehttp"
+url = "https://api-mcp.51ifind.com:8643/ds-mcp-servers/hexin-ifind-ds-news-mcp"
+auth_token = "REPLACE_WITH_TOKEN"

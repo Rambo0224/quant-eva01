@@ -1,0 +1,28 @@
+.venv/
+.venv-win/
+.work/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest_tmp/
+
+# Machine-local credentials and service configuration
+config/comein_mcp.local.env
+config/mcp_servers.toml
+
+# Local runtime database (recreated by the data ingestion workflow)
+data/replay.duckdb
+data/*.duckdb
+data/panel/
+
+# Runtime reports, temporary outputs, and local process state
+logs/
+*.log
+*.wal
+*.tmp
+*.lock
+
+# Local generated/test artifacts
+.work/
+node_modules/
+*.egg-info/

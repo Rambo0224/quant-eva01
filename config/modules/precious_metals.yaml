@@ -1,0 +1,62 @@
+themes:
+  precious-metals:
+    title: 贵金属与外汇
+    description: 伦敦金现、贵金属和外汇相关日频指标
+    indicators:
+    - id: london-gold-spot-close
+      title: 伦敦金现收盘价
+      description: XAU 外盘现货黄金日频 OHLC 的收盘价序列
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        fetch_start_date: '2006-08-11'
+        start_date: '2026-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: london_gold_spot_close
+        title: 伦敦金现收盘价
+        unit: USD/oz
+        y_label: USD/oz
+        source_label: akshare_sina_foreign_xau
+      metadata:
+        factor_name: london_gold_spot_close
+        indicator_type: 原始
+        excel_method: akshare.futures_foreign_hist(symbol="XAU")
+        preferred_source: akshare_sina_foreign_xau
+        fallback_source: null
+        source_status: validated_historical
+        source_reason: AkShare 新浪外盘 XAU 日频历史行情可返回 2006 年以来 OHLC 数据，适合作为无密钥自动刷新源。
+        data_quality: real
+        dependencies: []
+    - id: london-gold-rsi-14d
+      title: 伦敦金现 RSI(14)
+      description: 基于伦敦金现 XAU 日频收盘价计算的 14 日 RSI
+      source: catalog
+      server: ''
+      tool: ''
+      arguments:
+        fetch_start_date: '2006-08-11'
+        start_date: '2026-01-01'
+      series: []
+      chart:
+        type: line
+        x_field: date
+        y_field: london_gold_rsi_14d
+        title: 伦敦金现 RSI(14)
+        unit: index
+        y_label: RSI
+        source_label: akshare_sina_foreign_xau
+      metadata:
+        factor_name: london_gold_rsi_14d
+        indicator_type: 合成
+        excel_method: RSI(14) calculated from akshare.futures_foreign_hist(symbol="XAU") close
+        preferred_source: derived
+        fallback_source: null
+        source_status: validated_historical
+        source_reason: 使用同一 XAU 日频收盘价序列按 Wilder EMA 口径计算 RSI(14)。
+        data_quality: real
+        dependencies:
+        - london-gold-spot-close

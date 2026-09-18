@@ -1,0 +1,333 @@
+sources:
+  akshare_stock_zh_a_hist_qfq:
+    provider: akshare
+    method: stock_zh_a_hist
+    adapter: akshare_stock_qfq
+    priority: 10
+    adjustment: qfq
+    volume_multiplier: 100
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: stock
+  akshare_etf_hist_em:
+    provider: akshare
+    method: fund_etf_hist_em
+    adapter: akshare_etf_daily
+    priority: 10
+    adjustment: raw
+    volume_multiplier: 100
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: etf
+  baostock_history_k_data:
+    provider: baostock
+    method: query_daily_history_k_AStock
+    priority: 20
+    adjustment: raw
+    volume_multiplier: 1
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: stock
+  baostock_etf_history_k_data:
+    provider: baostock
+    method: query_history_k_data_plus
+    adapter: baostock_etf_daily
+    priority: 20
+    adjustment: raw
+    volume_multiplier: 1
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: etf
+  comein_etf_quote_history:
+    provider: Comein
+    method: get_exchange_fund_quote_history
+    adapter: comein_etf_daily
+    priority: 5
+    adjustment: raw
+    volume_multiplier: 1
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: etf
+  openbb_yfinance:
+    provider: openbb_yfinance
+    method: equity_historical
+    priority: 90
+    adjustment: unknown
+    volume_multiplier: 1
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: stock
+  openbb_yfinance_batch:
+    provider: yfinance
+    method: download
+    priority: 90
+    adjustment: unknown
+    volume_multiplier: 1
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: stock
+  akshare_public:
+    provider: akshare
+    method: stock_zh_index_daily / option statistics
+    adapter: akshare_index_daily
+    priority: 10
+  akshare_sina_foreign_xau:
+    provider: akshare
+    method: futures_foreign_hist
+    priority: 10
+  akshare_etf_scale_sse:
+    provider: SSE
+    method: COMMON_SSE_ZQPZ_ETFZL_XXPL_ETFGM_SEARCH_L
+    priority: 10
+  akshare_etf_scale_szse_daily:
+    provider: akshare
+    method: fund_scale_daily_szse
+    priority: 10
+  baostock_stock_qfq:
+    provider: baostock
+    method: query_history_k_data_plus(adjustflag=2)
+    adapter: baostock_stock_qfq
+    priority: 20
+    adjustment: qfq
+    volume_multiplier: 1
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: stock
+  comein_stock_kline:
+    provider: Comein
+    method: get_stock_kline (front_adjust_* daily fields)
+    adapter: comein_stock_daily
+    priority: 5
+    adjustment: qfq
+    volume_multiplier: 1
+    volume_unit: share
+    amount_unit: CNY
+    asset_type: stock
+  akshare_eastmoney_index:
+    provider: akshare
+    method: index_zh_a_hist
+    adapter: eastmoney_index_daily
+    priority: 20
+  comein_index_kline:
+    provider: Comein
+    method: searchIndexQuotation (kline-D)
+    adapter: comein_index_daily
+    priority: 30
+  exchange_margin_total:
+    provider: SSE+SZSE
+    method: official daily margin totals; matched dates; verified unit conversion
+    priority: 20
+  comein_ifind_edb:
+    provider: Comein / iFinD EDB
+    method: get_economic_indicator_data; exact indicator, daily frequency, and unit validation
+    priority: 20
+  ifind-edb-direct:
+    provider: iFinD
+    method: get_edb_data
+    priority: 10
+  comein_mcp:
+    provider: Comein
+    method: searchIndexQuotation / futures_kline
+    priority: 20
+  cffex_official:
+    provider: CFFEX
+    method: daily dominant contract by volume
+    priority: 20
+  derived:
+    provider: local
+    method: configured scalar calculations
+    priority: 20
+  baostock_market_breadth:
+    provider: local / BaoStock
+    method: market breadth aggregation
+    priority: 20
+  baostock_derived:
+    provider: local / BaoStock
+    method: cross-sectional technical calculations
+    priority: 20
+market:
+  stock_scope: existing
+  # Delisted or ST securities deliberately removed from this project's
+  # research universe. These are A-share security codes, not index codes.
+  excluded_symbols:
+  - '000016'
+  stock_start: '2021-01-01'
+  etf_start: '2010-01-01'
+  index_start: '2018-01-01'
+  timeout_seconds: 90
+  retries: 2
+  max_parallel_requests: 4
+  indexes:
+    hs300_close: sh000300
+    sz50_close: sh000016
+    cyb50_close: sz399673
+    kc50_close: sh000688
+    zz500_close: sh000905
+  candidates:
+    stock:
+    - source: comein_stock_kline
+    - source: akshare_stock_zh_a_hist_qfq
+    - source: baostock_stock_qfq
+    etf:
+    - source: comein_etf_quote_history
+    - source: akshare_etf_hist_em
+    - source: baostock_etf_history_k_data
+    index:
+    - source: akshare_public
+    - source: akshare_eastmoney_index
+    - source: comein_index_kline
+rules:
+  market_stock:
+    handler: market
+    enabled: true
+    sources:
+    - akshare_stock_zh_a_hist_qfq
+    - baostock_stock_qfq
+    - comein_stock_kline
+    table: equity_daily_bars
+    key: symbol
+    logical_kind: stock
+  market_etf:
+    handler: market
+    enabled: true
+    sources:
+    - akshare_etf_hist_em
+    - baostock_etf_history_k_data
+    - comein_etf_quote_history
+    table: equity_daily_bars
+    key: symbol
+    logical_kind: etf
+  market_index:
+    handler: market
+    enabled: true
+    sources:
+    - akshare_public
+    - akshare_eastmoney_index
+    - comein_index_kline
+    table: observations
+    key: series_id
+    indicators:
+    - hs300-close
+    - sz50-close
+    - cyb50-close
+    - kc50-close
+    - zz500-close
+    logical_kind: index
+  configured:
+    handler: configured
+    enabled: true
+    sources:
+    - ifind-edb-direct
+    - exchange_margin_total
+    - comein_ifind_edb
+    table: observations
+    key: series_id
+    indicators:
+    - turnover-total
+    - margin-balance
+    - margin-purchase
+    - short-balance
+  gold:
+    handler: gold
+    enabled: true
+    sources:
+    - akshare_sina_foreign_xau
+    table: market_daily_bars
+    key: asset_id
+    observation_outputs:
+    - london-gold-spot-close
+    - london-gold-rsi-14d
+  etf_shares:
+    handler: etf_shares
+    enabled: true
+    sources:
+    - akshare_etf_scale_sse
+    - akshare_etf_scale_szse_daily
+    table: etf_share_daily
+    key: symbol
+  akshare_options:
+    handler: akshare_options
+    enabled: true
+    sources:
+    - akshare_public
+    table: observations
+    key: series_id
+    indicators:
+    - qvix
+    - ivix-50
+    - pcr-volume
+    - pcr-oi
+  index_valuation:
+    handler: index_valuation
+    enabled: true
+    sources:
+    - comein_mcp
+    table: observations
+    key: series_id
+    indicators:
+    - hs300-pe
+    - hs300-pb
+    - sz50-pe
+    - sz50-pb
+    - cyb50-pe
+    - cyb50-pb
+    - kc50-pe
+    - kc50-pb
+  futures:
+    handler: futures
+    enabled: true
+    sources:
+    - cffex_official
+    - comein_mcp
+    table: observations
+    key: series_id
+    indicators:
+    - if-close
+    - ic-close
+    - ih-close
+derived_indicators:
+  compute_margin_derived:
+  - short-increase-rate
+  compute_index_derived:
+  - hs300-vol-20d
+  - sz50-vol-20d
+  - cyb50-vol-20d
+  - kc50-vol-20d
+  - kc50-rsi-14d
+  futures:
+  - if-vol-20d
+  - ic-vol-20d
+  - if-basis
+  - ic-basis
+  compute_futures_annualized_basis:
+  - if-basis-annual
+  - ic-basis-annual
+  compute_baostock_market_breadth:
+  - advance-decline-line
+  - advance_decline_net
+  - advance-ratio
+  - advance-ratio-2
+  - explosive-ratio
+  - limit-up-count
+  - limit-down-count
+  - limit-up-ratio
+  - limit-down-ratio
+  - turnover-rate
+  compute_ashare_technical_factors:
+  - above-ma120-ratio
+  - above-ma20-ratio
+  - above-ma60-ratio
+  - advance-ratio-20d
+  - atr-14d-median
+  - bias-20d-median
+  - high-120d-ratio
+  - high-250d-ratio
+  - high-60d-ratio
+  - momentum-20d-median
+  - momentum-60d-median
+  - reversal-5d-median
+  - rsi-14d-median
+  - turnover-individual-median
+  - volume-ratio-20d-median
+indicator_aliases:
+  advance_decline_line: advance-decline-line

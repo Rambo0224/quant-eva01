@@ -1,0 +1,42 @@
+[project]
+name = "omnisignal"
+version = "0.1.0"
+description = "OmniSignal A-share market monitoring terminal"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=0.10",
+    "pandas>=2.2",
+    "plotly>=5.19",
+    "kaleido>=0.2.1",
+    "requests>=2.32",
+    "akshare>=1.17",
+    "baostock>=0.9.3",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "fastapi>=0.115",
+    "uvicorn>=0.32",
+    "streamlit>=1.44",
+    "dash>=4.1",
+    "jinja2>=3.1",
+    "python-multipart>=0.0.9",
+    "lxml>=5.0",
+    "openpyxl>=3.1",
+    "tomli-w>=1.0",
+]
+
+[project.optional-dependencies]
+providers = [
+    "tushare>=1.4.29",
+    "openbb-yfinance>=1.6.3",
+]
+
+[project.scripts]
+quant-data = "datahub.sync.service:main"
+omnisignal = "macro_replay.cli:app"
+macro-replay = "macro_replay.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["macro_replay", "macro_replay.*", "app", "app.*", "datahub", "datahub.*"]
+
+[tool.setuptools.package-data]
+"datahub.sync" = ["*.sql"]
